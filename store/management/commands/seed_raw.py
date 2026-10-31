@@ -20,7 +20,7 @@ CATALOG = [
 PRODUCTS = [
     ("RAW Signature Red Tee", "RAW-TEE-RED", "streetwear", "product-red-tee.webp", "A statement tee from RAW. Real as we. Inspired by the fear of being average.", 35000, True, True),
     ("RAW Essential White Tee", "RAW-TEE-WHT", "men", "product-white-tee.webp", "A clean everyday essential with RAW identity and an easy, confident fit.", 35000, True, False),
-    ("RAW KOIOPHOBIA Hoodie", "RAW-HD-KOI", "limited-edition", "product-koio-hoodie.webp", "A warm layer carrying the KOIOPHOBIA statement. Wear your identity.", 65000, True, True),
+    ("RAW KOINOPHOBIA Hoodie", "RAW-HD-KOI", "limited-edition", "product-koio-hoodie.webp", "A warm layer carrying the KOINOPHOBIA statement. Wear your identity.", 65000, True, True),
     ("RAW Black Hoodie", "RAW-HD-BLK", "streetwear", "product-black-hoodie.webp", "A versatile heavyweight-inspired streetwear layer in black.", 65000, True, False),
     ("RAW Graphic Black Tee", "RAW-TEE-BLK", "new-arrivals", "product-black-tee.webp", "Original RAW graphic tee. Not made to blend in.", 35000, True, False),
     ("RAW Identity Tee", "RAW-TEE-ID", "women", "product-white-model.webp", "A minimal piece for bold self-expression. Be original. Be real. Be RAW.", 35000, False, True),

@@ -1,5 +1,22 @@
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const transition = document.querySelector('.page-transition');
+  if (transition && !reduceMotion) {
+    transition.classList.add('is-entering');
+    window.setTimeout(() => transition.classList.remove('is-entering'), 520);
+    document.addEventListener('click', (event) => {
+      const link = event.target.closest('a[href]');
+      if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (link.target || link.hasAttribute('download') || link.hasAttribute('data-quick-view')) return;
+      const destination = new URL(link.href, window.location.href);
+      if (destination.origin !== window.location.origin || destination.href === window.location.href || destination.hash && destination.pathname === window.location.pathname) return;
+      event.preventDefault();
+      transition.classList.remove('is-entering');
+      transition.classList.add('is-active');
+      window.setTimeout(() => { window.location.href = destination.href; }, 190);
+    });
+  }
+
   const menu = document.querySelector('.menu-toggle');
   const nav = document.querySelector('#main-nav');
   menu?.addEventListener('click', () => {

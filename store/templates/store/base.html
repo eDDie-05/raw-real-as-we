@@ -31,8 +31,18 @@
     </button>
     <nav id="main-nav" class="main-nav" aria-label="Main navigation">
       <a href="{% url 'shop' %}">Shop</a>
-      <a href="{% url 'shop' %}?q=men">Men</a>
-      <a href="{% url 'shop' %}?q=women">Women</a>
+      <a href="{% url 'collection_gallery' 'men' %}">Men</a>
+      <a href="{% url 'collection_gallery' 'women' %}">Women</a>
+      <details class="nav-collections">
+        <summary>Collections <span aria-hidden="true">⌄</span></summary>
+        <div class="mega-menu">
+          <a href="{% url 'collection_gallery' 'men' %}"><small>01 / COLLECTION</small>Men's collection <span>↗</span></a>
+          <a href="{% url 'collection_gallery' 'women' %}"><small>02 / COLLECTION</small>Women's collection <span>↗</span></a>
+          <a href="{% url 'shop' %}?sort=newest"><small>03 / JUST IN</small>New arrivals <span>↗</span></a>
+          <a href="{% url 'shop' %}?q=limited"><small>04 / SMALL RUN</small>Limited edition <span>↗</span></a>
+          <a href="{% url 'collection_gallery' 'campaign' %}"><small>05 / THE VISUAL ARCHIVE</small>RAW campaigns <span>↗</span></a>
+        </div>
+      </details>
       <a href="{% url 'shop' %}?sort=newest">New arrivals</a>
       <a href="{% url 'about' %}">The RAW story</a>
     </nav>
@@ -100,7 +110,7 @@
       </div>
     </div>
     <div class="footer-statement">
-      <span>KOIOPHOBIA.</span>
+      <span>KOINOPHOBIA.</span>
       <p>WEAR YOUR IDENTITY. NOT MADE TO BLEND IN.</p>
       <strong>BE ORIGINAL. BE REAL. BE RAW.</strong>
     </div>
@@ -115,6 +125,7 @@
     <button type="button" class="dialog-close" aria-label="Close quick view">×</button>
     <div class="quick-view-content"></div>
   </dialog>
+  <div class="page-transition" aria-hidden="true"><span>RAW</span><small>REAL AS WE.</small></div>
   <script src="{% static 'store/js/raw.js' %}" defer></script>
   {% block extra_scripts %}{% endblock %}
 </body>

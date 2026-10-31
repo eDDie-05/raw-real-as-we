@@ -1,0 +1,55 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}{{ collection_title }} — RAW{% endblock %}
+{% block meta_description %}{{ collection_description }} RAW — REAL AS WE. Inspired by the fear of being average.{% endblock %}
+{% block content %}
+<section class="gallery-hero gallery-hero-{{ collection_slug }}">
+  {% if collection_photos %}<img class="gallery-hero-image" src="{% static collection_photos.0.src %}" alt="" fetchpriority="high">{% endif %}
+  <div class="gallery-hero-scrim"></div>
+  <div class="gallery-hero-copy section-shell">
+    <p class="eyebrow">{{ collection_eyebrow }} · {{ collection_count|stringformat:"02d" }} PHOTOGRAPHS</p>
+    <h1>{{ collection_title|upper }}<br><em>IN RAW.</em></h1>
+    <p>{{ collection_description }}</p>
+    {% if collection_slug != "campaign" %}<a class="button button-light" href="{% url 'shop' %}?q={{ collection_slug }}">SHOP {{ collection_title|upper }} <span>↗</span></a>{% endif %}
+    <a class="gallery-scroll-link" href="#collection-lookbook">EXPLORE THE LOOKBOOK ↓</a>
+  </div>
+  <span class="gallery-hero-index">RAW / 00{{ collection_count }} · DAR ES SALAAM</span>
+</section>
+
+<section class="gallery-controls section-shell" aria-label="Collection navigation">
+  <span>RAW — REAL AS WE.</span>
+  <div>
+    <a href="{% url 'collection_gallery' 'men' %}" {% if collection_slug == "men" %}aria-current="page"{% endif %}>MEN</a>
+    <a href="{% url 'collection_gallery' 'women' %}" {% if collection_slug == "women" %}aria-current="page"{% endif %}>WOMEN</a>
+    <a href="{% url 'collection_gallery' 'campaign' %}" {% if collection_slug == "campaign" %}aria-current="page"{% endif %}>CAMPAIGNS</a>
+  </div>
+</section>
+
+<section class="collection-lookbook section-shell" id="collection-lookbook">
+  <div class="section-heading reveal">
+    <div><p class="eyebrow">THE RAW ARCHIVE · {{ collection_count|stringformat:"02d" }} IMAGES</p><h2>Every frame.<br><em>Every side.</em></h2></div>
+    <p class="gallery-intro-copy">The photographs you shared, organized into their collection and shown as a complete RAW lookbook.</p>
+  </div>
+  <div class="lookbook-grid">
+    {% for photo in collection_photos %}
+    <figure class="lookbook-frame reveal {% cycle 'lookbook-frame-tall' '' '' 'lookbook-frame-wide' %}">
+      <img src="{% static photo.src %}" alt="{{ photo.alt }}" loading="lazy" decoding="async">
+      <figcaption><span>RAW / {{ photo.number|stringformat:"03d" }}</span><span>{{ collection_title|upper }}</span></figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+
+{% if collection_products %}
+<section class="section-shell collection-shop-section">
+  <div class="section-heading reveal"><div><p class="eyebrow">AVAILABLE PIECES</p><h2>Shop the<br><em>collection.</em></h2></div><a class="text-link" href="{% url 'shop' %}?q={{ collection_slug }}">VIEW ALL PIECES <span>↗</span></a></div>
+  <div class="product-grid">{% for product in collection_products %}{% include "store/_product_card.html" with product=product %}{% endfor %}</div>
+</section>
+{% endif %}
+
+<section class="gallery-closeout">
+  <p class="eyebrow light-eyebrow">RAW — REAL AS WE.</p>
+  <h2>INSPIRED BY THE<br>FEAR OF BEING<br><em>AVERAGE.</em></h2>
+  <a class="button button-light" href="{% url 'shop' %}">EXPLORE THE SHOP <span>↗</span></a>
+</section>
+{% endblock %}

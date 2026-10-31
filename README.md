@@ -1,10 +1,11 @@
 # RAW — REAL AS WE
 
-RAW is a Django streetwear shop and brand site built around the supplied campaign photography and the official RAW mark. The logo source is preserved as `store/static/store/images/raw-logo-original.jpeg`; its white background is intentional and its silhouette has not been redrawn. Twenty provided photographs were optimized as WebP versions for campaign and starter-catalogue use.
+RAW is a Django streetwear shop and brand site built around the supplied campaign photography and the official RAW mark. The logo source is preserved as `store/static/store/images/raw-logo-original.jpeg`; its white background is intentional and its silhouette has not been redrawn. All 96 supplied JPEGs are retained unchanged in `store/static/store/images/source-library/originals/`, with optimized WebP display copies in the adjacent `webp/` folder. The Men, Women, and Campaign Archive collections show all 96 photos, grouped as 79, 11, and 6 respectively. The signature concept is spelled **KOINOPHOBIA**.
 
 ## What is included
 
 - Editorial home, shop, product pages, About, contact, terms and privacy pages.
+- Dedicated Men, Women and campaign archive pages with every supplied photograph, animated lookbook reveals, a collections mega menu and animated page transitions.
 - Responsive navigation, search, filters, product variation selection, quick view, cart and account pages.
 - Django admin product/category/inventory/order control and staff dashboard.
 - Guest checkout saves an order with **Pending WhatsApp confirmation** before opening WhatsApp at **+255 775 794 221**. Opening WhatsApp records only that the link was opened; it cannot detect a sent message, payment or confirmation.
@@ -80,4 +81,4 @@ python manage.py makemigrations --check --dry-run
 python manage.py test
 ```
 
-The tests cover page/catalog responses, variation stock checks, database order creation, multi-line WhatsApp content and inventory transitions. They do not test real WhatsApp delivery, real payment, production hosting, email delivery, cross-device browser rendering or a live production database.
+The tests cover page/catalog responses, all-photo gallery grouping, variation stock checks, database order creation, multi-line WhatsApp content and inventory transitions. They do not test real WhatsApp delivery, real payment, production hosting, email delivery, cross-device browser rendering or a live production database.

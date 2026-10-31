@@ -1,5 +1,6 @@
 from decimal import Decimal, InvalidOperation
 import json
+from pathlib import Path
 from urllib.parse import urlencode
 
 from django.contrib import messages
@@ -21,6 +22,10 @@ from .models import (
     OrderItem, OrderStatusLog, Product, ProductVariant, ShippingAddress,
 )
 from .services import build_whatsapp_message, format_tzs, whatsapp_url
+
+GALLERY_ASSETS = json.loads(
+    (Path(__file__).resolve().parent / "gallery_assets.json").read_text(encoding="utf-8")
+)
 
 
 def home(request):
@@ -347,6 +352,30 @@ def whatsapp_order(request, token):
 
 def about(request):
     return render(request, "store/about.html")
+
+
+def collection_gallery(request, slug):
+    collections = {
+        "men": ("Men's collection", "MEN / REAL AS WE", "A full visual archive of RAW menswear campaigns and pieces.", "men"),
+        "women": ("Women's collection", "WOMEN / REAL AS WE", "Every supplied RAW womenswear photograph, together in one collection.", "women"),
+        "campaign": ("RAW campaign archive", "THE RAW IMAGE ARCHIVE", "The complete RAW campaign library, including the original brand mark and campaign artwork.", "campaign"),
+    }
+    if slug not in collections:
+        raise Http404("Collection not found")
+    title, eyebrow, description, asset_group = collections[slug]
+    photos = [asset for asset in GALLERY_ASSETS if asset["collection"] == asset_group]
+    products = Product.objects.filter(is_active=True, category__slug=slug).prefetch_related(
+        "images", "variants"
+    )
+    return render(request, "store/collection_gallery.html", {
+        "collection_title": title,
+        "collection_eyebrow": eyebrow,
+        "collection_description": description,
+        "collection_slug": slug,
+        "collection_photos": photos,
+        "collection_count": len(photos),
+        "collection_products": products,
+    })
 
 
 def contact(request):

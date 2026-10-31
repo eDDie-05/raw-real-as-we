@@ -41,6 +41,22 @@ class StorefrontTests(TestCase):
         self.assertContains(response, "RAW Tee")
         self.assertEqual(self.client.get(self.product.get_absolute_url()).status_code, 200)
 
+    def test_every_supplied_photo_is_in_the_correct_collection_gallery(self):
+        from .views import GALLERY_ASSETS
+
+        self.assertEqual(len(GALLERY_ASSETS), 96)
+        self.assertEqual(sum(image["collection"] == "men" for image in GALLERY_ASSETS), 79)
+        self.assertEqual(sum(image["collection"] == "women" for image in GALLERY_ASSETS), 11)
+        self.assertEqual(sum(image["collection"] == "campaign" for image in GALLERY_ASSETS), 6)
+        for slug, image_path in (
+            ("men", "image-001.webp"),
+            ("women", "image-019.webp"),
+            ("campaign", "image-058.webp"),
+        ):
+            response = self.client.get(reverse("collection_gallery", args=[slug]))
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, image_path)
+
     def test_cart_rejects_overstock_without_creating_item(self):
         response = self.add_to_bag(5)
         self.assertEqual(response.status_code, 302)
