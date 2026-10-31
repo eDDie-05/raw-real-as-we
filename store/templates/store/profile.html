@@ -1,0 +1,18 @@
+{% extends "store/base.html" %}
+{% block title %}Your account — RAW{% endblock %}
+{% block content %}
+<section class="page-intro compact-intro section-shell"><p class="eyebrow">YOUR RAW ACCOUNT</p><h1>Good to see you,<br><em>{{ request.user.first_name|default:request.user.username }}.</em></h1></section>
+<section class="account-layout section-shell">
+  <nav class="account-nav"><a class="active" href="{% url 'profile' %}">PROFILE</a><a href="{% url 'order_history' %}">ORDERS</a><a href="{% url 'address_book' %}">ADDRESSES</a><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="text-button" type="submit">SIGN OUT ↗</button></form></nav>
+  <div class="account-panel"><p class="eyebrow">PERSONAL DETAILS</p><h2>Your information</h2>
+    <form method="post" class="form-grid account-form">{% csrf_token %}
+      <div class="form-field"><label for="first_name">First name</label><input id="first_name" name="first_name" value="{{ request.user.first_name }}"></div>
+      <div class="form-field"><label for="last_name">Last name</label><input id="last_name" name="last_name" value="{{ request.user.last_name }}"></div>
+      <div class="form-field"><label for="email">Email</label><input id="email" name="email" type="email" value="{{ request.user.email }}"></div>
+      <div class="form-field"><label for="phone">Phone</label><input id="phone" name="phone" value="{{ profile.phone }}"></div>
+      <div class="field-wide"><button class="button" type="submit">SAVE CHANGES <span>↗</span></button></div>
+    </form>
+    <div class="account-shortcuts"><a href="{% url 'order_history' %}">ORDER HISTORY <span>↗</span></a><a href="{% url 'password_change' %}">CHANGE PASSWORD <span>↗</span></a><a href="{% url 'address_book' %}">SAVED ADDRESSES <span>↗</span></a></div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% load static %}
+<article class="product-card reveal">
+  <div class="product-card-media">
+    <a class="product-card-image" href="{{ product.get_absolute_url }}" aria-label="View {{ product.name }}">
+      {% if product.primary_image %}
+        <img src="{{ product.primary_image.image.url }}" alt="{{ product.primary_image.alt_text|default:product.name }}" loading="lazy">
+      {% else %}
+        <img src="{% static 'store/images/campaign-scooter.webp' %}" alt="RAW campaign" loading="lazy">
+      {% endif %}
+    </a>
+    <div class="product-flags">
+      {% if product.is_new_arrival %}<span>NEW</span>{% endif %}
+      {% if product.discounted_price %}<span class="flag-sale">SALE</span>{% endif %}
+    </div>
+    <a class="quick-view-link" href="{% url 'quick_view' product.slug %}" data-quick-view>QUICK VIEW <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-category">{{ product.category.name }}</p>
+      <h3><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
+    </div>
+    <div class="product-price">
+      {% if product.discounted_price %}<del>{{ product.price|floatformat:0 }} TZS</del>{% endif %}
+      <strong>{{ product.current_price|floatformat:0 }} TZS</strong>
+    </div>
+  </div>
+  {% with active_variants=product.variants.all %}
+  <form action="{% url 'cart_add' %}" method="post" class="card-add-form">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <label class="sr-only" for="card-variant-{{ product.pk }}">Choose size and colour</label>
+    <select id="card-variant-{{ product.pk }}" name="variant_id" required aria-label="Choose size and colour">
+      <option value="">Select size · colour</option>
+      {% for variant in active_variants %}
+        {% if variant.is_active and variant.stock > 0 %}
+        <option value="{{ variant.pk }}">{{ variant.size }} · {{ variant.colour }}</option>
+        {% endif %}
+      {% endfor %}
+    </select>
+    <button class="button button-small" type="submit" {% if not product.in_stock %}disabled{% endif %}>
+      {% if product.in_stock %}ADD TO BAG{% else %}SOLD OUT{% endif %}
+    </button>
+  </form>
+  {% endwith %}
+</article>

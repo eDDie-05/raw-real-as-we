@@ -1,0 +1,31 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}The RAW story — REAL AS WE{% endblock %}
+{% block content %}
+<section class="about-hero">
+  <img src="{% static 'store/images/campaign-boardwalk.webp' %}" alt="RAW wearer moving freely in a streetwear piece">
+  <div class="hero-scrim"></div>
+  <div class="about-hero-copy"><p class="eyebrow light-eyebrow">THE RAW STORY · 001</p><h1>REAL<br>AS <em>WE.</em></h1><p>Not a trend. A way of being.</p></div>
+  <span class="about-hero-side">DAR ES SALAAM · RAW CAMPAIGN</span>
+</section>
+<section class="about-manifesto section-shell">
+  <p class="eyebrow">WHAT RAW MEANS</p>
+  <h2>RAW means<br><em>REAL AS WE.</em></h2>
+  <div class="manifesto-copy"><span>01 / IDENTITY</span><p>RAW is a clothing and lifestyle identity built around originality, confidence, individuality and honest self-expression. We believe fashion isn't only what you put on. It is what you choose to let the world read.</p></div>
+  <div class="manifesto-copy"><span>02 / THE MOTTO</span><p>INSPIRED BY THE FEAR OF BEING AVERAGE. A reminder to keep your own point of view, move at your own pace and never trade your identity for permission.</p></div>
+</section>
+<section class="about-image-break">
+  <img src="{% static 'store/images/campaign-women.webp' %}" alt="RAW campaign portrait" loading="lazy">
+  <div class="about-image-note"><span>WEAR YOUR IDENTITY.</span><strong>NOT MADE<br>TO BLEND IN.</strong></div>
+</section>
+<section class="koio-explainer section-shell">
+  <p class="eyebrow">THE RAW PHILOSOPHY</p>
+  <h2>KOIOPHOBIA<span>.</span></h2>
+  <div class="koio-explainer-copy"><p class="big-copy">The fear of becoming average. The fear of waking up one day and realising you have been living someone else's version of you.</p><p>At RAW, KOIOPHOBIA is our signature concept: a daily nudge toward originality. It is not a demand to be louder than everyone else. It is permission to be unmistakably yourself.</p></div>
+</section>
+<section class="about-final">
+  <img src="{% static 'store/images/campaign-community.webp' %}" alt="RAW community campaign" loading="lazy">
+  <div class="hero-scrim"></div>
+  <div class="about-final-copy"><p class="eyebrow light-eyebrow">RAW — REAL AS WE.</p><h2>BE ORIGINAL.<br>BE REAL.<br><em>BE RAW.</em></h2><a class="button button-light" href="{% url 'shop' %}">FIND YOUR PIECE <span>↗</span></a></div>
+</section>
+{% endblock %}

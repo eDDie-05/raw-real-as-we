@@ -1,0 +1,22 @@
+{% extends "store/base.html" %}
+{% block title %}Saved addresses — RAW{% endblock %}
+{% block content %}
+<section class="page-intro compact-intro section-shell"><p class="eyebrow">YOUR RAW ACCOUNT</p><h1>Saved <em>addresses.</em></h1></section>
+<section class="account-layout section-shell">
+  <nav class="account-nav"><a href="{% url 'profile' %}">PROFILE</a><a href="{% url 'order_history' %}">ORDERS</a><a class="active" href="{% url 'address_book' %}">ADDRESSES</a></nav>
+  <div class="account-panel">
+    <div class="address-grid">{% for address in addresses %}<article class="address-card"><p class="eyebrow">{{ address.label }}{% if address.is_default %} · DEFAULT{% endif %}</p><strong>{{ address.recipient }}</strong><span>{{ address.phone }}</span><span>{{ address.address }}</span><span>{{ address.city }}, {{ address.region }}</span></article>{% empty %}<p>No saved addresses yet.</p>{% endfor %}</div>
+    <h2>Add an address</h2>
+    <form method="post" action="{% url 'address_add' %}" class="form-grid account-form">{% csrf_token %}
+      <div class="form-field"><label for="label">Label</label><input id="label" name="label" value="Home"></div>
+      <div class="form-field"><label for="recipient">Recipient</label><input id="recipient" name="recipient" required></div>
+      <div class="form-field"><label for="phone">Phone</label><input id="phone" name="phone" required></div>
+      <div class="form-field"><label for="region">Region</label><input id="region" name="region" required></div>
+      <div class="form-field"><label for="city">City</label><input id="city" name="city" required></div>
+      <div class="form-field field-wide"><label for="address">Address</label><input id="address" name="address" required></div>
+      <div class="form-field field-wide"><label for="delivery_instructions">Instructions</label><textarea id="delivery_instructions" name="delivery_instructions" rows="3"></textarea></div>
+      <div class="field-wide"><button class="button" type="submit">SAVE ADDRESS <span>↗</span></button></div>
+    </form>
+  </div>
+</section>
+{% endblock %}

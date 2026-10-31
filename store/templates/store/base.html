@@ -1,0 +1,121 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f2ed">
+  <meta name="description" content="{% block meta_description %}RAW — REAL AS WE. Inspired by the fear of being average. Discover original streetwear made to wear your identity.{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}RAW — REAL AS WE{% endblock %}">
+  <meta property="og:description" content="INSPIRED BY THE FEAR OF BEING AVERAGE.">
+  <meta property="og:image" content="{% static 'store/images/campaign-scooter.webp' %}">
+  <link rel="icon" href="{% static 'store/images/raw-logo-original.jpeg' %}" type="image/jpeg">
+  <link rel="stylesheet" href="{% static 'store/css/raw.css' %}">
+  <title>{% block title %}RAW — REAL AS WE{% endblock %}</title>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="announcement">
+    <span>REAL AS WE.</span>
+    <span>INSPIRED BY THE FEAR OF BEING AVERAGE.</span>
+    <a href="{% url 'shop' %}">SHOP THE DROP <span aria-hidden="true">↗</span></a>
+  </div>
+  <header class="site-header">
+    <a class="brand-lockup" href="{% url 'home' %}" aria-label="RAW — home">
+      <img src="{% static 'store/images/raw-logo-original.jpeg' %}" width="94" height="68" alt="RAW inverted-Z mark with RAW lettering">
+      <span class="brand-wordmark">RAW<span>REAL AS WE</span></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+      <i></i><i></i>
+    </button>
+    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+      <a href="{% url 'shop' %}">Shop</a>
+      <a href="{% url 'shop' %}?q=men">Men</a>
+      <a href="{% url 'shop' %}?q=women">Women</a>
+      <a href="{% url 'shop' %}?sort=newest">New arrivals</a>
+      <a href="{% url 'about' %}">The RAW story</a>
+    </nav>
+    <div class="header-tools">
+      <form class="search-form" method="get" action="{% url 'shop' %}" role="search">
+        <label class="sr-only" for="site-search">Search RAW</label>
+        <input id="site-search" name="q" type="search" placeholder="Search" value="{{ request.GET.q|default:'' }}">
+        <button type="submit" aria-label="Search">⌕</button>
+      </form>
+      <a class="tool-link account-link" href="{% if request.user.is_authenticated %}{% url 'profile' %}{% else %}{% url 'login' %}{% endif %}" aria-label="Account">
+        <span class="tool-icon" aria-hidden="true">↗</span><span class="tool-label">Account</span>
+      </a>
+      <a class="tool-link bag-link" href="{% url 'cart' %}" aria-label="Shopping bag, {{ raw_cart_count }} items">
+        <span class="tool-icon" aria-hidden="true">BAG</span><span class="tool-count">{{ raw_cart_count }}</span>
+      </a>
+    </div>
+  </header>
+
+  {% if messages %}
+  <div class="toast-stack" aria-live="polite">
+    {% for message in messages %}
+    <div class="toast toast-{{ message.tags }}">{{ message }}<button type="button" aria-label="Dismiss message">×</button></div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="footer-logo" href="{% url 'home' %}">
+          <img src="{% static 'store/images/raw-logo-original.jpeg' %}" width="100" height="72" alt="RAW official mark">
+        </a>
+        <p class="footer-kicker">RAW — REAL AS WE.</p>
+        <p class="footer-motto">INSPIRED BY THE<br>FEAR OF BEING AVERAGE.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Explore</h2>
+        <a href="{% url 'shop' %}">Shop all</a>
+        <a href="{% url 'shop' %}?sort=newest">New arrivals</a>
+        <a href="{% url 'about' %}">About RAW</a>
+        <a href="{% url 'contact' %}">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h2>Support</h2>
+        <a href="{% url 'contact' %}">Delivery & returns</a>
+        <a href="{% url 'terms' %}">Terms & conditions</a>
+        <a href="{% url 'privacy' %}">Privacy</a>
+        <a href="{% url 'order_history' %}">Order history</a>
+      </div>
+      <div class="footer-newsletter">
+        <h2>Stay original.</h2>
+        <p>First access to new drops, campaigns and the RAW world.</p>
+        <form action="{% url 'newsletter_signup' %}" method="post" class="newsletter-form">
+          {% csrf_token %}
+          <label class="sr-only" for="footer-email">Email address</label>
+          <input id="footer-email" name="email" type="email" placeholder="Email address" required>
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <button type="submit" aria-label="Subscribe">↗</button>
+        </form>
+        <a class="whatsapp-footer" href="https://wa.me/255775794221" target="_blank" rel="noopener noreferrer">WhatsApp · +255 775 794 221</a>
+      </div>
+    </div>
+    <div class="footer-statement">
+      <span>KOIOPHOBIA.</span>
+      <p>WEAR YOUR IDENTITY. NOT MADE TO BLEND IN.</p>
+      <strong>BE ORIGINAL. BE REAL. BE RAW.</strong>
+    </div>
+    <div class="footer-bottom">
+      <span>© {% now "Y" %} RAW — REAL AS WE.</span>
+      <span>MADE FOR THOSE WHO REFUSE AVERAGE.</span>
+      <a href="{% url 'terms' %}">TZS · Tanzania</a>
+    </div>
+  </footer>
+
+  <dialog id="quick-view-dialog" class="quick-view-dialog" aria-label="Quick product view">
+    <button type="button" class="dialog-close" aria-label="Close quick view">×</button>
+    <div class="quick-view-content"></div>
+  </dialog>
+  <script src="{% static 'store/js/raw.js' %}" defer></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

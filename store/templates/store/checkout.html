@@ -1,0 +1,45 @@
+{% extends "store/base.html" %}
+{% block title %}Checkout — RAW{% endblock %}
+{% block content %}
+<section class="page-intro compact-intro section-shell">
+  <p class="eyebrow">ONE MORE STEP</p><h1>Checkout<em>.</em></h1>
+  <p>Place your order, then review and send it to RAW on WhatsApp.</p>
+</section>
+<section class="section-shell checkout-layout">
+  <div class="checkout-form-panel">
+    <form method="post" class="checkout-form">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+      <div class="checkout-section-heading"><span>01</span><h2>Your details</h2></div>
+      <div class="form-grid">
+        <div class="form-field field-wide"><label for="{{ form.customer_name.id_for_label }}">Full name</label>{{ form.customer_name }}{{ form.customer_name.errors }}</div>
+        <div class="form-field"><label for="{{ form.phone.id_for_label }}">Phone number</label>{{ form.phone }}{{ form.phone.errors }}</div>
+        <div class="form-field"><label for="{{ form.email.id_for_label }}">Email <span>OPTIONAL</span></label>{{ form.email }}{{ form.email.errors }}</div>
+      </div>
+      <div class="checkout-section-heading"><span>02</span><h2>Where to find you</h2></div>
+      <div class="form-grid">
+        <div class="form-field"><label for="{{ form.region.id_for_label }}">Region</label>{{ form.region }}{{ form.region.errors }}</div>
+        <div class="form-field"><label for="{{ form.city.id_for_label }}">City</label>{{ form.city }}{{ form.city.errors }}</div>
+        <div class="form-field field-wide"><label for="{{ form.address.id_for_label }}">Delivery address</label>{{ form.address }}{{ form.address.errors }}</div>
+        <div class="form-field field-wide"><label for="{{ form.delivery_instructions.id_for_label }}">Delivery instructions <span>OPTIONAL</span></label>{{ form.delivery_instructions }}{{ form.delivery_instructions.errors }}</div>
+      </div>
+      <div class="checkout-whatsapp-explainer"><span class="whatsapp-icon">WA</span><p>Your order will be saved first. WhatsApp opens with the order details ready for you to review and send. No payment is taken here.</p></div>
+      <button class="button button-full" type="submit">PLACE ORDER & CONTINUE TO WHATSAPP <span>↗</span></button>
+      <a class="continue-shopping" href="{% url 'cart' %}">← BACK TO YOUR BAG</a>
+    </form>
+  </div>
+  <aside class="checkout-summary">
+    <p class="eyebrow">YOUR SELECTION</p>
+    {% for item in items %}
+    <div class="checkout-line">
+      {% if item.variant.product.primary_image %}<img src="{{ item.variant.product.primary_image.image.url }}" alt="" loading="lazy">{% endif %}
+      <div><strong>{{ item.variant.product.name }}</strong><span>{{ item.variant.size }} · {{ item.variant.colour }} · Qty {{ item.quantity }}</span></div>
+      <b>{{ item.variant.current_price|floatformat:0 }} TZS</b>
+    </div>
+    {% endfor %}
+    <div class="summary-total"><span>Subtotal</span><strong>{{ cart.subtotal|floatformat:0 }} TZS</strong></div>
+    <div class="checkout-delivery"><span>Delivery</span><span>To be confirmed by RAW</span></div>
+    <p class="summary-note">Your order is pending until RAW confirms availability on WhatsApp.</p>
+  </aside>
+</section>
+{% endblock %}

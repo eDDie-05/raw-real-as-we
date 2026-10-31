@@ -1,0 +1,54 @@
+{% extends "store/base.html" %}
+{% block title %}Your bag — RAW{% endblock %}
+{% block content %}
+<section class="page-intro compact-intro section-shell">
+  <p class="eyebrow">YOUR RAW SELECTION</p>
+  <div class="page-intro-row"><h1>Your <em>bag.</em></h1><span>{{ cart.item_count|stringformat:"02d" }} ITEMS</span></div>
+</section>
+<section class="section-shell cart-layout">
+  <div class="cart-items">
+    {% for item in items %}
+    <article class="cart-item">
+      <a class="cart-item-image" href="{{ item.variant.product.get_absolute_url }}">
+        {% if item.variant.product.primary_image %}<img src="{{ item.variant.product.primary_image.image.url }}" alt="{{ item.variant.product.name }}" loading="lazy">{% endif %}
+      </a>
+      <div class="cart-item-main">
+        <p class="product-category">{{ item.variant.product.category.name }}</p>
+        <h2><a href="{{ item.variant.product.get_absolute_url }}">{{ item.variant.product.name }}</a></h2>
+        <p>{{ item.variant.colour }} · {{ item.variant.size }}</p>
+        <form method="post" action="{% url 'cart_update' item.id %}" class="cart-item-update">
+          {% csrf_token %}
+          <label class="sr-only" for="variant-{{ item.id }}">Change size or colour</label>
+          <select id="variant-{{ item.id }}" name="variant_id">
+            {% for variant in item.variant.product.variants.all %}
+              {% if variant.is_active and variant.stock > 0 %}
+              <option value="{{ variant.id }}" {% if variant.id == item.variant_id %}selected{% endif %}>{{ variant.size }} · {{ variant.colour }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+          <label class="sr-only" for="quantity-{{ item.id }}">Quantity</label>
+          <input id="quantity-{{ item.id }}" name="quantity" type="number" min="0" max="99" value="{{ item.quantity }}">
+          <button class="text-button" type="submit">UPDATE</button>
+        </form>
+        <form method="post" action="{% url 'cart_remove' item.id %}">{% csrf_token %}<button class="text-button remove-link" type="submit">REMOVE</button></form>
+      </div>
+      <strong class="cart-item-price">{{ item.variant.current_price|floatformat:0 }} TZS</strong>
+    </article>
+    {% empty %}
+    <div class="empty-cart"><p class="eyebrow">NO PIECES SELECTED</p><h2>Your bag is<br><em>waiting.</em></h2><p>Find the pieces that say something about you.</p><a class="button" href="{% url 'shop' %}">DISCOVER RAW <span>↗</span></a></div>
+    {% endfor %}
+  </div>
+  {% if items %}
+  <aside class="cart-summary">
+    <p class="eyebrow">ORDER SUMMARY</p>
+    <div><span>Subtotal</span><strong>{{ cart.subtotal|floatformat:0 }} TZS</strong></div>
+    <div><span>Delivery</span><span>To be confirmed</span></div>
+    <div class="summary-total"><span>Items total</span><strong>{{ cart.subtotal|floatformat:0 }} TZS</strong></div>
+    <p class="summary-note">Delivery fees and timing are confirmed by RAW before payment.</p>
+    <a class="button button-full" href="{% url 'checkout' %}">CONTINUE TO CHECKOUT <span>↗</span></a>
+    <a class="continue-shopping" href="{% url 'shop' %}">← CONTINUE SHOPPING</a>
+    <div class="checkout-whatsapp-note"><span>ORDER DIRECTLY WITH RAW</span><a href="https://wa.me/255775794221" target="_blank" rel="noopener noreferrer">+255 775 794 221 ↗</a></div>
+  </aside>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "store/base.html" %}
+{% block title %}{{ order.reference }} — RAW{% endblock %}
+{% block content %}
+<section class="page-intro compact-intro section-shell"><p class="eyebrow">{{ order.reference }}</p><h1>Your order,<br><em>{{ order.get_status_display }}.</em></h1></section>
+<section class="section-shell order-account-detail">
+  <div><p class="eyebrow">TRACKING</p><ol class="status-timeline">{% for event in order.status_history.all %}<li><span>{{ event.created_at|date:"d M Y · H:i" }}</span><strong>{{ event.get_new_status_display }}</strong>{% if event.note %}<p>{{ event.note }}</p>{% endif %}</li>{% endfor %}</ol></div>
+  <div class="order-summary-card"><p class="eyebrow">ORDER DETAILS</p>{% for item in order.items.all %}<div class="order-summary-line"><span>{{ item.quantity }} × {{ item.product_name }}<small>{{ item.size }} · {{ item.colour }}</small></span><strong>{{ item.line_total|floatformat:0 }} TZS</strong></div>{% endfor %}<div class="order-total"><span>ITEMS TOTAL</span><strong>{{ order.total|floatformat:0 }} TZS</strong></div>{% if order.status == "pending_whatsapp" %}<a class="button button-whatsapp button-full" href="{% url 'whatsapp_order' order.public_token %}" target="_blank" rel="noopener noreferrer">REVIEW ON WHATSAPP ↗</a>{% endif %}</div>
+</section>
+{% endblock %}

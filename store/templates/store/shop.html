@@ -1,0 +1,68 @@
+{% extends "store/base.html" %}
+{% block title %}{% if category %}{{ category.name }}{% else %}Shop{% endif %} — RAW{% endblock %}
+{% block content %}
+<section class="page-intro shop-intro">
+  <p class="eyebrow">RAW / THE COLLECTION</p>
+  <div class="page-intro-row"><h1>{% if category %}{{ category.name }}{% else %}Shop <em>RAW.</em>{% endif %}</h1><span>{{ page_obj.paginator.count|stringformat:"02d" }} PIECES</span></div>
+  <p>Wear your identity. Every piece says something before you do.</p>
+</section>
+<div class="shop-layout section-shell">
+  <aside class="filter-panel">
+    <div class="filter-title"><span>REFINE</span><a href="{% if category %}{% url 'category_shop' category.slug %}{% else %}{% url 'shop' %}{% endif %}">CLEAR ALL</a></div>
+    <form method="get" action="{% if category %}{% url 'category_shop' category.slug %}{% else %}{% url 'shop' %}{% endif %}" class="filters-form">
+      <label class="filter-label" for="filter-search">Search</label>
+      <input id="filter-search" type="search" name="q" value="{{ query }}" placeholder="Find your piece">
+      <label class="filter-label" for="filter-category">Collection</label>
+      <select id="filter-category" name="category" onchange="if(this.value) window.location.href=this.value">
+        <option value="">All collections</option>
+        {% for item in categories %}
+        <option value="{% url 'category_shop' item.slug %}" {% if category.pk == item.pk %}selected{% endif %}>{{ item.name }}</option>
+        {% endfor %}
+      </select>
+      <label class="filter-label" for="filter-size">Size</label>
+      <select id="filter-size" name="size">
+        <option value="">Any size</option>
+        {% for size in sizes %}<option value="{{ size }}" {% if selected_size == size %}selected{% endif %}>{{ size }}</option>{% endfor %}
+      </select>
+      <label class="filter-label" for="filter-colour">Colour</label>
+      <select id="filter-colour" name="colour">
+        <option value="">Any colour</option>
+        {% for colour in colours %}<option value="{{ colour }}" {% if selected_colour == colour %}selected{% endif %}>{{ colour }}</option>{% endfor %}
+      </select>
+      <div class="price-filter">
+        <label class="filter-label">Price · TZS</label>
+        <div><input type="number" min="0" name="min_price" value="{{ min_price }}" placeholder="Min" aria-label="Minimum price"><span>—</span><input type="number" min="0" name="max_price" value="{{ max_price }}" placeholder="Max" aria-label="Maximum price"></div>
+      </div>
+      <label class="filter-label" for="filter-sort">Sort by</label>
+      <select id="filter-sort" name="sort">
+        <option value="newest" {% if sort == "newest" %}selected{% endif %}>Newest</option>
+        <option value="price-low" {% if sort == "price-low" %}selected{% endif %}>Price: low to high</option>
+        <option value="price-high" {% if sort == "price-high" %}selected{% endif %}>Price: high to low</option>
+        <option value="name" {% if sort == "name" %}selected{% endif %}>Name</option>
+      </select>
+      <button class="button filter-apply" type="submit">APPLY FILTERS <span>↗</span></button>
+    </form>
+    <div class="filter-categories">
+      <p class="filter-label">Shop by collection</p>
+      {% for item in categories %}<a href="{% url 'category_shop' item.slug %}">{{ item.name }} <span>↗</span></a>{% endfor %}
+    </div>
+  </aside>
+  <section class="shop-results" aria-label="Products">
+    {% if query %}<p class="search-result-note">Showing results for “{{ query }}”</p>{% endif %}
+    <div class="product-grid">
+      {% for product in products %}
+        {% include "store/_product_card.html" with product=product %}
+      {% empty %}
+        <div class="empty-results"><span>RAW / 00</span><h2>Nothing here<br><em>yet.</em></h2><p>Try another search or clear the filters.</p><a class="button" href="{% url 'shop' %}">VIEW ALL PIECES <span>↗</span></a></div>
+      {% endfor %}
+    </div>
+    {% if page_obj.has_other_pages %}
+    <nav class="pagination" aria-label="Product pages">
+      {% if page_obj.has_previous %}<a href="?{{ query_string }}&page={{ page_obj.previous_page_number }}">← PREVIOUS</a>{% endif %}
+      <span>PAGE {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a href="?{{ query_string }}&page={{ page_obj.next_page_number }}">NEXT →</a>{% endif %}
+    </nav>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

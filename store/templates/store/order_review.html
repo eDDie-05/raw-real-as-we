@@ -1,0 +1,26 @@
+{% extends "store/base.html" %}
+{% block title %}Order {{ order.reference }} — RAW{% endblock %}
+{% block content %}
+<section class="order-success section-shell">
+  <div class="order-success-mark">RAW<br><span>ORDER RECEIVED</span></div>
+  <div class="order-success-copy">
+    <p class="eyebrow">YOUR ORDER IS IN THE RAW WORLD</p>
+    <h1>Next step:<br><em>WhatsApp.</em></h1>
+    <p>Your order is saved. Review the pre-filled message and send it to RAW so the team can confirm availability, delivery and payment instructions.</p>
+    <div class="order-reference"><span>ORDER REFERENCE</span><strong>{{ order.reference }}</strong><span class="order-status">{{ order.get_status_display }}</span></div>
+    <a class="button button-whatsapp" href="{% url 'whatsapp_order' order.public_token %}" target="_blank" rel="noopener noreferrer">REVIEW & SEND IN WHATSAPP <span>↗</span></a>
+    <p class="order-disclaimer">Opening WhatsApp does not mark the order as sent, confirmed or paid. You must send the message yourself.</p>
+    <details class="message-preview"><summary>PREVIEW YOUR ORDER MESSAGE <span>+</span></summary><pre>{{ whatsapp_message }}</pre></details>
+    <a class="text-link" href="{% url 'shop' %}">KEEP EXPLORING RAW <span>↗</span></a>
+  </div>
+  <aside class="order-summary-card">
+    <p class="eyebrow">ORDER SUMMARY</p>
+    {% for item in order.items.all %}
+    <div class="order-summary-line"><span>{{ item.quantity }} × {{ item.product_name }}<small>{{ item.size }} · {{ item.colour }}</small></span><strong>{{ item.line_total|floatformat:0 }} TZS</strong></div>
+    {% endfor %}
+    <div class="order-summary-line"><span>Subtotal</span><strong>{{ order.subtotal|floatformat:0 }} TZS</strong></div>
+    <div class="order-summary-line"><span>Delivery</span><span>To be confirmed</span></div>
+    <div class="order-total"><span>ITEMS TOTAL</span><strong>{{ order.total|floatformat:0 }} TZS</strong></div>
+  </aside>
+</section>
+{% endblock %}

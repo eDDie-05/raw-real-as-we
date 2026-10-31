@@ -1,0 +1,18 @@
+{% extends "store/base.html" %}
+{% block title %}Sign in — RAW{% endblock %}
+{% block content %}
+<section class="auth-layout section-shell">
+  <div class="auth-editorial"><p class="eyebrow light-eyebrow">RAW / YOUR WORLD</p><h1>Come back<br><em>to yourself.</em></h1><p>Your RAW world, your saved details, your order history.</p></div>
+  <div class="auth-card"><p class="eyebrow">YOUR RAW ACCOUNT</p><h2>Sign in</h2>
+    {% if form.errors %}<div class="form-errors">The username or password wasn't recognized. Try again.</div>{% endif %}
+    <form method="post" class="stacked-form">{% csrf_token %}
+      <div class="form-field"><label for="{{ form.username.id_for_label }}">Username</label>{{ form.username }}</div>
+      <div class="form-field"><label for="{{ form.password.id_for_label }}">Password</label>{{ form.password }}</div>
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <button class="button button-full" type="submit">SIGN IN <span>↗</span></button>
+    </form>
+    <p class="auth-switch"><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+    <p class="auth-switch">New to RAW? <a href="{% url 'signup' %}">Create an account ↗</a></p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}{{ product.name }} — RAW{% endblock %}
+{% block meta_description %}{{ product.description|truncatechars:155 }}{% endblock %}
+{% block content %}
+<nav class="breadcrumbs section-shell" aria-label="Breadcrumb">
+  <a href="{% url 'home' %}">HOME</a><span>/</span><a href="{% url 'shop' %}">SHOP</a><span>/</span><a href="{% url 'category_shop' product.category.slug %}">{{ product.category.name|upper }}</a><span>/</span><span>{{ product.name|upper }}</span>
+</nav>
+<section class="product-detail section-shell">
+  <div class="product-gallery">
+    <div class="product-main-image">
+      {% if product.primary_image %}<img id="main-product-image" src="{{ product.primary_image.image.url }}" alt="{{ product.primary_image.alt_text|default:product.name }}">
+      {% else %}<img id="main-product-image" src="{% static 'store/images/campaign-scooter.webp' %}" alt="RAW campaign">{% endif %}
+      <button class="image-zoom" type="button" aria-label="Open image larger">+</button>
+    </div>
+    {% if product.images.count > 1 %}
+    <div class="product-thumbnails" role="list" aria-label="Product images">
+      {% for image in product.images.all %}
+      <button type="button" class="product-thumbnail {% if image.is_primary %}is-active{% endif %}" data-image-url="{{ image.image.url }}" data-image-alt="{{ image.alt_text|default:product.name }}" aria-label="Show image {{ forloop.counter }}">
+        <img src="{{ image.image.url }}" alt="" loading="lazy">
+      </button>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="product-detail-copy">
+    <p class="eyebrow">{{ product.category.name }} · {{ product.sku }}</p>
+    <h1>{{ product.name }}</h1>
+    <div class="detail-price">
+      {% if product.discounted_price %}<del>{{ product.price|floatformat:0 }} TZS</del>{% endif %}
+      <strong id="variant-price">{{ product.current_price|floatformat:0 }} TZS</strong>
+      {% if product.discounted_price %}<span class="sale-note">LIMITED PRICE</span>{% endif %}
+    </div>
+    <div class="detail-rule"></div>
+    <p class="product-description">{{ product.description|linebreaksbr }}</p>
+    <form method="post" action="{% url 'cart_add' %}" class="product-buy-form">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{% url 'cart' %}">
+      <div class="variant-picker-scope">
+        {{ variants_data|json_script:"product-variants" }}
+        <input type="hidden" name="variant_id" value="">
+        <div class="variant-label-row"><span class="filter-label">Size</span><a href="#size-guide">SIZE GUIDE</a></div>
+        <div class="size-options">
+          {% for size in sizes %}<button type="button" data-size-choice="{{ size }}" aria-pressed="false">{{ size }}</button>{% endfor %}
+        </div>
+        <label class="filter-label" for="detail-colour">Colour <span class="selected-colour"></span></label>
+        <select id="detail-colour" data-colour-select>
+          <option value="">Select a colour</option>
+          {% for colour in colours %}<option value="{{ colour }}">{{ colour }}</option>{% endfor %}
+        </select>
+        <p class="stock-message" data-stock-message aria-live="polite">Choose a size and colour.</p>
+      </div>
+      <div class="quantity-row">
+        <label class="filter-label" for="quantity">Quantity</label>
+        <div class="quantity-control"><button type="button" data-quantity-step="-1" aria-label="Decrease quantity">−</button><input id="quantity" name="quantity" type="number" value="1" min="1" max="99"><button type="button" data-quantity-step="1" aria-label="Increase quantity">+</button></div>
+      </div>
+      <button class="button button-full add-to-bag" type="submit" disabled data-add-to-bag>ADD TO BAG <span>↗</span></button>
+      <a class="whatsapp-product-link" href="https://wa.me/255775794221?text={{ product.name|urlencode }}" target="_blank" rel="noopener noreferrer">QUESTIONS ABOUT THIS PIECE? CHAT WITH RAW ↗</a>
+    </form>
+    <div class="product-accordion">
+      <details open><summary>THE PIECE <span>+</span></summary><p>{{ product.description }}</p></details>
+      <details><summary>DELIVERY & RETURNS <span>+</span></summary><p>Delivery within Tanzania is arranged with RAW after order confirmation. Delivery cost and timing are confirmed on WhatsApp before you pay.</p></details>
+      <details><summary>SIZE GUIDE <span>+</span></summary><p id="size-guide">Choose your usual size for a regular fit. For a more relaxed streetwear fit, consider sizing up. Contact RAW if you need help choosing.</p></details>
+    </div>
+  </div>
+</section>
+<section class="section-shell related-section">
+  <div class="section-heading"><div><p class="eyebrow">KEEP YOUR FREQUENCY</p><h2>More from <em>RAW.</em></h2></div><a class="text-link" href="{% url 'shop' %}">SHOP ALL <span>↗</span></a></div>
+  <div class="product-grid">{% for product in related_products %}{% include "store/_product_card.html" with product=product %}{% endfor %}</div>
+</section>
+{% endblock %}
