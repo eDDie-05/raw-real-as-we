@@ -25,6 +25,22 @@
   <div class="ticker-track"><span>WEAR YOUR IDENTITY</span><b>✳</b><span>NOT MADE TO BLEND IN</span><b>✳</b><span>BE ORIGINAL. BE REAL. BE RAW.</span><b>✳</b><span>WEAR YOUR IDENTITY</span><b>✳</b><span>NOT MADE TO BLEND IN</span><b>✳</b></div>
 </section>
 
+<section class="campaign-film-section">
+  <div class="campaign-film-frame">
+    <video class="campaign-film" poster="{% static 'store/images/campaign-scooter.webp' %}" muted loop playsinline controls preload="metadata" data-raw-campaign-video aria-label="RAW fifteen-second streetwear campaign film">
+      <source src="{% static 'store/video/raw-campaign.mp4' %}" type="video/mp4">
+      Your browser does not support the RAW campaign film.
+    </video>
+    <span class="campaign-film-duration">RAW FILM · 00:15</span>
+  </div>
+  <div class="campaign-film-copy">
+    <p class="eyebrow">THE RAW MOVEMENT · 001</p>
+    <h2>More than<br>a moment.<br><em>All of you.</em></h2>
+    <p>A short campaign film from the RAW world. Real people, real presence, no borrowed identity.</p>
+    <a class="text-link" href="{% url 'collection_gallery' 'campaign' %}">ENTER THE CAMPAIGN ARCHIVE <span>↗</span></a>
+  </div>
+</section>
+
 <section class="section-shell new-arrivals-section" id="new-arrivals">
   <div class="section-heading reveal">
     <div><p class="eyebrow">THE FIRST LOOK · 001</p><h2>New to the<br><em>RAW world.</em></h2></div>

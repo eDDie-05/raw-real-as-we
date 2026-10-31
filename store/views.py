@@ -491,6 +491,19 @@ def robots(request):
     )
 
 
+def offline(request):
+    return render(request, "store/offline.html")
+
+
+def service_worker(request):
+    worker = Path(__file__).resolve().parent / "static" / "store" / "js" / "sw.js"
+    return HttpResponse(
+        worker.read_text(encoding="utf-8"),
+        content_type="application/javascript; charset=utf-8",
+        headers={"Service-Worker-Allowed": "/", "Cache-Control": "no-cache"},
+    )
+
+
 @login_required
 @user_passes_test(lambda user: user.is_staff)
 def dashboard(request):

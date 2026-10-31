@@ -35,11 +35,24 @@ class StorefrontTests(TestCase):
         }
 
     def test_store_pages_and_catalog_filter(self):
-        self.assertEqual(self.client.get(reverse("home")).status_code, 200)
+        home = self.client.get(reverse("home"))
+        self.assertEqual(home.status_code, 200)
+        self.assertContains(home, "raw-campaign.mp4")
+        self.assertContains(home, "INSTALL APP")
+        self.assertContains(home, "manifest.webmanifest")
         response = self.client.get(reverse("shop"), {"q": "tee", "size": "M"})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "RAW Tee")
         self.assertEqual(self.client.get(self.product.get_absolute_url()).status_code, 200)
+
+    def test_pwa_service_worker_and_offline_page_are_available(self):
+        worker = self.client.get(reverse("service_worker"))
+        self.assertEqual(worker.status_code, 200)
+        self.assertEqual(worker["Service-Worker-Allowed"], "/")
+        self.assertContains(worker, "raw-static-v1")
+        offline = self.client.get(reverse("offline"))
+        self.assertEqual(offline.status_code, 200)
+        self.assertContains(offline, "Your signal")
 
     def test_every_supplied_photo_is_in_the_correct_collection_gallery(self):
         from .views import GALLERY_ASSETS

@@ -1,5 +1,61 @@
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const installBanner = document.querySelector('#pwa-install-banner');
+  const installButton = document.querySelector('[data-pwa-install]');
+  const helpDialog = document.querySelector('#pwa-help-dialog');
+  let deferredInstallPrompt = null;
+  const installedMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const hideInstallBanner = (remember = false) => {
+    if (installBanner) installBanner.hidden = true;
+    if (remember) {
+      try { window.localStorage.setItem('raw-install-dismissed', '1'); } catch (_) { /* storage can be disabled */ }
+    }
+  };
+  const openInstallGuide = () => {
+    if (!helpDialog) return;
+    const ua = navigator.userAgent;
+    const ios = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const android = /Android/i.test(ua);
+    const selector = ios ? '.pwa-ios-help' : android ? '.pwa-android-help' : /Mac|Win|Linux/i.test(navigator.platform) ? '.pwa-desktop-help' : '.pwa-generic-help';
+    helpDialog.querySelectorAll('.pwa-ios-help, .pwa-android-help, .pwa-desktop-help, .pwa-generic-help').forEach((item) => { item.hidden = !item.matches(selector); });
+    if (helpDialog.showModal) helpDialog.showModal();
+  };
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    if (installButton) installButton.textContent = 'INSTALL RAW APP ↗';
+  });
+  window.addEventListener('appinstalled', () => hideInstallBanner(true));
+  installButton?.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) {
+      openInstallGuide();
+      return;
+    }
+    deferredInstallPrompt.prompt();
+    const result = await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    if (result?.outcome === 'accepted') hideInstallBanner(true);
+  });
+  document.querySelectorAll('[data-pwa-help]').forEach((button) => button.addEventListener('click', openInstallGuide));
+  document.querySelectorAll('[data-pwa-help-close]').forEach((button) => button.addEventListener('click', () => helpDialog?.close()));
+  document.querySelector('[data-pwa-dismiss]')?.addEventListener('click', () => hideInstallBanner(true));
+  if (installBanner && !installedMode) {
+    let dismissed = false;
+    try { dismissed = window.localStorage.getItem('raw-install-dismissed') === '1'; } catch (_) { /* storage can be disabled */ }
+    if (!dismissed) window.setTimeout(() => { installBanner.hidden = false; }, 1300);
+  }
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+    navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).catch(() => {});
+  }
+  const campaignVideo = document.querySelector('[data-raw-campaign-video]');
+  if (campaignVideo && !reduceMotion && 'IntersectionObserver' in window) {
+    const videoObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) campaignVideo.play().catch(() => {});
+      else campaignVideo.pause();
+    }), { threshold: 0.3 });
+    videoObserver.observe(campaignVideo);
+  }
+
   const transition = document.querySelector('.page-transition');
   if (transition && !reduceMotion) {
     transition.classList.add('is-entering');

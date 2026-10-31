@@ -728,3 +728,53 @@ h1 em, h2 em { font-family: var(--serif); font-weight: 400; letter-spacing: -.08
 @media (prefers-reduced-motion: reduce) {
   .page-transition, .lookbook-frame img, .gallery-hero-image { animation: none !important; transition: none !important; }
 }
+
+/* Short RAW campaign film and installable web app */
+[hidden] { display: none !important; }
+.campaign-film-section { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(300px,.85fr); min-height: 480px; background: #e6e3dc; }
+.campaign-film-frame { min-height: 480px; position: relative; overflow: hidden; background: #181817; }
+.campaign-film { width: 100%; height: 100%; min-height: 480px; position: absolute; inset: 0; object-fit: cover; }
+.campaign-film-duration { position: absolute; top: 17px; left: 18px; padding: 7px 9px; background: #111d; color: white; font-size: 7px; font-weight: 800; letter-spacing: .16em; pointer-events: none; }
+.campaign-film-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 55px clamp(26px,7vw,100px); }
+.campaign-film-copy h2 { margin: 8px 0 17px; font-family: var(--display); font-size: clamp(3.4rem,6.5vw,6.8rem); font-weight: 900; line-height: .78; letter-spacing: -.1em; text-transform: uppercase; }
+.campaign-film-copy h2 em { color: var(--red); font-style: normal; }
+.campaign-film-copy > p:not(.eyebrow) { max-width: 350px; margin: 0 0 22px; color: var(--muted); font-family: var(--serif); font-size: 15px; font-style: italic; }
+.pwa-install-banner { width: min(600px,calc(100% - 28px)); min-height: 76px; position: fixed; right: 14px; bottom: 14px; z-index: 90; display: flex; align-items: center; gap: 13px; padding: 10px 12px; border: 1px solid #ffffff26; background: #171715f5; color: white; box-shadow: 0 16px 44px #0003; animation: install-banner-in .45s cubic-bezier(.2,.65,.25,1) both; }
+.pwa-install-banner > img { flex: 0 0 46px; object-fit: contain; background: white; }
+.pwa-banner-copy { flex: 1; min-width: 0; }
+.pwa-banner-copy > span { font-size: 8px; font-weight: 800; letter-spacing: .16em; }
+.pwa-banner-copy p { margin: 4px 0 0; color: #c5c3bd; font-size: 10px; line-height: 1.35; }
+.pwa-install-button { min-height: 40px; gap: 10px; padding-inline: 12px; background: white; color: var(--ink); font-size: 8px; white-space: nowrap; }
+.pwa-install-button:hover { color: white; }
+.pwa-help-button, .pwa-dismiss { padding: 8px; border: 0; background: transparent; color: #ddd; font-size: 8px; font-weight: 800; letter-spacing: .08em; white-space: nowrap; }
+.pwa-dismiss { font-size: 20px; font-weight: 400; }
+.pwa-help-dialog { width: min(470px,calc(100% - 30px)); max-width: none; padding: 38px; border: 0; background: var(--paper); color: var(--ink); box-shadow: 0 20px 80px #0005; }
+.pwa-help-dialog::backdrop { background: #0c0c0bbb; backdrop-filter: blur(5px); }
+.pwa-help-dialog h2 { margin: 7px 0 18px; font-family: var(--display); font-size: 3.7rem; font-weight: 900; line-height: .8; letter-spacing: -.1em; text-transform: uppercase; }
+.pwa-help-dialog h2 em { color: var(--red); font-style: normal; }
+.pwa-help-dialog > p:not(.eyebrow) { color: var(--muted); font-size: 13px; }
+.pwa-help-dialog .button { margin-top: 12px; }
+.footer-install-button { width: max-content; padding: 0; border: 0; border-bottom: 1px solid transparent; background: transparent; color: #e1dfd7; font-size: 11px; text-align: left; cursor: pointer; }
+.footer-install-button:hover { border-color: #f17b70; color: #f17b70; }
+@keyframes install-banner-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 820px) {
+  .campaign-film-section { grid-template-columns: 1fr; }
+  .campaign-film-frame, .campaign-film { min-height: 430px; }
+  .campaign-film-copy { padding: 45px 7vw 55px; }
+}
+@media (max-width: 560px) {
+  .campaign-film-frame, .campaign-film { min-height: 340px; }
+  .campaign-film-copy { padding: 38px 20px 45px; }
+  .campaign-film-copy h2 { font-size: 3.7rem; }
+  .pwa-install-banner { right: 8px; bottom: 8px; width: calc(100% - 16px); gap: 8px; padding: 8px; }
+  .pwa-install-banner > img { width: 36px; height: 36px; flex-basis: 36px; }
+  .pwa-banner-copy > span { font-size: 7px; }
+  .pwa-banner-copy p { font-size: 8px; }
+  .pwa-install-button { min-height: 36px; gap: 5px; padding-inline: 8px; font-size: 7px; }
+  .pwa-help-button { display: none; }
+  .pwa-dismiss { padding: 3px; }
+  .pwa-help-dialog { padding: 28px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pwa-install-banner { animation: none; }
+}

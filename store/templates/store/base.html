@@ -5,12 +5,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4f2ed">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="RAW">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="description" content="{% block meta_description %}RAW — REAL AS WE. Inspired by the fear of being average. Discover original streetwear made to wear your identity.{% endblock %}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="{% block og_title %}RAW — REAL AS WE{% endblock %}">
   <meta property="og:description" content="INSPIRED BY THE FEAR OF BEING AVERAGE.">
   <meta property="og:image" content="{% static 'store/images/campaign-scooter.webp' %}">
   <link rel="icon" href="{% static 'store/images/raw-logo-original.jpeg' %}" type="image/jpeg">
+  <link rel="apple-touch-icon" href="{% static 'store/images/raw-app-icon-192.png' %}">
+  <link rel="manifest" href="{% static 'store/manifest.webmanifest' %}">
   <link rel="stylesheet" href="{% static 'store/css/raw.css' %}">
   <title>{% block title %}RAW — REAL AS WE{% endblock %}</title>
   {% block extra_head %}{% endblock %}
@@ -61,6 +66,14 @@
     </div>
   </header>
 
+  <aside class="pwa-install-banner" id="pwa-install-banner" hidden aria-label="Install the RAW app">
+    <img src="{% static 'store/images/raw-app-icon-192.png' %}" width="46" height="46" alt="">
+    <div class="pwa-banner-copy"><span>THE RAW APP</span><p>Take RAW with you. Add the web app to your home screen.</p></div>
+    <button class="button pwa-install-button" type="button" data-pwa-install>INSTALL APP <span>↗</span></button>
+    <button class="pwa-help-button" type="button" data-pwa-help>HOW TO INSTALL</button>
+    <button class="pwa-dismiss" type="button" data-pwa-dismiss aria-label="Dismiss app install option">×</button>
+  </aside>
+
   {% if messages %}
   <div class="toast-stack" aria-live="polite">
     {% for message in messages %}
@@ -88,6 +101,7 @@
         <a href="{% url 'shop' %}?sort=newest">New arrivals</a>
         <a href="{% url 'about' %}">About RAW</a>
         <a href="{% url 'contact' %}">Contact</a>
+        <button class="footer-install-button" type="button" data-pwa-help>Install RAW app</button>
       </div>
       <div class="footer-col">
         <h2>Support</h2>
@@ -124,6 +138,16 @@
   <dialog id="quick-view-dialog" class="quick-view-dialog" aria-label="Quick product view">
     <button type="button" class="dialog-close" aria-label="Close quick view">×</button>
     <div class="quick-view-content"></div>
+  </dialog>
+  <dialog id="pwa-help-dialog" class="pwa-help-dialog" aria-labelledby="pwa-help-title">
+    <button class="dialog-close" type="button" data-pwa-help-close aria-label="Close installation guide">×</button>
+    <p class="eyebrow">RAW · REAL AS WE</p>
+    <h2 id="pwa-help-title">Take RAW<br><em>with you.</em></h2>
+    <p class="pwa-ios-help" hidden>On iPhone or iPad: tap the Share button in Safari, choose “Add to Home Screen”, then tap Add.</p>
+    <p class="pwa-android-help" hidden>In Chrome, open the browser menu and choose “Install app” or “Add to Home screen”.</p>
+    <p class="pwa-desktop-help" hidden>Use your browser’s install icon in the address bar, or open its menu and choose “Install RAW”.</p>
+    <p class="pwa-generic-help" hidden>Open your browser menu and choose “Add to Home screen” or “Install app”. RAW must be opened over HTTPS to install.</p>
+    <button class="button button-dark" type="button" data-pwa-help-close>GOT IT</button>
   </dialog>
   <div class="page-transition" aria-hidden="true"><span>RAW</span><small>REAL AS WE.</small></div>
   <script src="{% static 'store/js/raw.js' %}" defer></script>

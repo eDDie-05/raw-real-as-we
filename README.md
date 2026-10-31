@@ -6,6 +6,8 @@ RAW is a Django streetwear shop and brand site built around the supplied campaig
 
 - Editorial home, shop, product pages, About, contact, terms and privacy pages.
 - Dedicated Men, Women and campaign archive pages with every supplied photograph, animated lookbook reveals, a collections mega menu and animated page transitions.
+- The supplied 15-second MP4 campaign film, muted and looping only while visible; reduced-motion users can play it manually with native controls.
+- Installable RAW PWA with the preserved official mark in square app icons, browser install option, iPhone/Android/desktop instructions, static-asset caching, and a private-data-safe offline fallback.
 - Responsive navigation, search, filters, product variation selection, quick view, cart and account pages.
 - Django admin product/category/inventory/order control and staff dashboard.
 - Guest checkout saves an order with **Pending WhatsApp confirmation** before opening WhatsApp at **+255 775 794 221**. Opening WhatsApp records only that the link was opened; it cannot detect a sent message, payment or confirmation.
@@ -72,6 +74,7 @@ For a hosting platform, provision PostgreSQL, install `requirements.txt`, set `D
 - Staff dashboard totals are database-backed. “Confirmed value” sums confirmed through delivered order subtotals; it is not a record of money collected. No payment gateway exists to report paid sales.
 - Inventory is reserved when staff confirms the order, and returned to stock if a committed order is cancelled.
 - `DEBUG=True` and SQLite are for local development. Use a generated secret, PostgreSQL, HTTPS, persistent media, and backups in production.
+- PWA installation requires HTTPS on a deployed domain (localhost works locally). Supported browsers show their native install prompt after the customer presses Install; Safari and other browsers without that prompt show the matching Add to Home Screen instructions. The service worker caches static assets and does not cache account, checkout, cart, or order pages.
 
 ## Quality checks
 
@@ -81,4 +84,4 @@ python manage.py makemigrations --check --dry-run
 python manage.py test
 ```
 
-The tests cover page/catalog responses, all-photo gallery grouping, variation stock checks, database order creation, multi-line WhatsApp content and inventory transitions. They do not test real WhatsApp delivery, real payment, production hosting, email delivery, cross-device browser rendering or a live production database.
+The tests cover page/catalog responses, all-photo gallery grouping, PWA service-worker/offline routes, variation stock checks, database order creation, multi-line WhatsApp content and inventory transitions. They do not test real WhatsApp delivery, real payment, production hosting, email delivery, cross-device browser rendering or a live production database.

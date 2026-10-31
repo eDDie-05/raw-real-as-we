@@ -1,0 +1,18 @@
+{
+  "id": "/",
+  "name": "RAW — REAL AS WE",
+  "short_name": "RAW",
+  "description": "RAW — REAL AS WE. Inspired by the fear of being average.",
+  "lang": "en-TZ",
+  "start_url": "/?source=installed-app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f2ed",
+  "theme_color": "#11110f",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    {"src": "/static/store/images/raw-app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/static/store/images/raw-app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}
