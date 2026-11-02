@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models, transaction
+from django.templatetags.static import static
 from django.utils import timezone
 from PIL import Image, UnidentifiedImageError
 
@@ -82,6 +83,19 @@ class Product(TimeStampedModel):
     def primary_image(self):
         return self.images.filter(is_primary=True).first() or self.images.first()
 
+    @property
+    def fallback_image_url(self):
+        product_images = {
+            "RAW-TEE-RED": "product-red-tee.webp",
+            "RAW-TEE-WHT": "product-white-tee.webp",
+            "RAW-HD-KOI": "product-koio-hoodie.webp",
+            "RAW-HD-BLK": "product-black-hoodie.webp",
+            "RAW-TEE-BLK": "product-black-tee.webp",
+            "RAW-TEE-ID": "product-white-model.webp",
+        }
+        image_name = product_images.get(self.sku, "campaign-scooter.webp")
+        return static(f"store/images/{image_name}")
+
 
 def product_image_path(instance, filename):
     suffix = Path(filename).suffix.lower()[:10] or ".jpg"
@@ -94,6 +108,12 @@ class ProductImage(TimeStampedModel):
     alt_text = models.CharField(max_length=180, blank=True)
     is_primary = models.BooleanField(default=False)
     sort_order = models.PositiveSmallIntegerField(default=0)
+
+    @property
+    def display_url(self):
+        if self.image and self.image.storage.exists(self.image.name):
+            return self.image.url
+        return self.product.fallback_image_url
 
     class Meta:
         ordering = ["sort_order", "id"]
