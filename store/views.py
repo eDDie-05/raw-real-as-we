@@ -495,6 +495,15 @@ def offline(request):
     return render(request, "store/offline.html")
 
 
+def web_manifest(request):
+    manifest = Path(__file__).resolve().parent / "static" / "store" / "manifest.webmanifest"
+    return HttpResponse(
+        manifest.read_text(encoding="utf-8"),
+        content_type="application/manifest+json; charset=utf-8",
+        headers={"Cache-Control": "no-cache"},
+    )
+
+
 def service_worker(request):
     worker = Path(__file__).resolve().parent / "static" / "store" / "js" / "sw.js"
     return HttpResponse(
