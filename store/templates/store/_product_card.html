@@ -3,7 +3,7 @@
   <div class="product-card-media">
     <a class="product-card-image" href="{{ product.get_absolute_url }}" aria-label="View {{ product.name }}">
       {% if product.primary_image %}
-        <img src="{{ product.primary_image.image.url }}" alt="{{ product.primary_image.alt_text|default:product.name }}" loading="lazy">
+        <img src="{{ product.primary_image.display_url }}" alt="{{ product.primary_image.alt_text|default:product.name }}" loading="lazy">
       {% else %}
         <img src="{% static 'store/images/campaign-scooter.webp' %}" alt="RAW campaign" loading="lazy">
       {% endif %}
