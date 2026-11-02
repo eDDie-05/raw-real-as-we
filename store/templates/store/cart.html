@@ -10,7 +10,7 @@
     {% for item in items %}
     <article class="cart-item">
       <a class="cart-item-image" href="{{ item.variant.product.get_absolute_url }}">
-        {% if item.variant.product.primary_image %}<img src="{{ item.variant.product.primary_image.image.url }}" alt="{{ item.variant.product.name }}" loading="lazy">{% endif %}
+        {% if item.variant.product.primary_image %}<img src="{{ item.variant.product.primary_image.display_url }}" alt="{{ item.variant.product.name }}" loading="lazy">{% endif %}
       </a>
       <div class="cart-item-main">
         <p class="product-category">{{ item.variant.product.category.name }}</p>
