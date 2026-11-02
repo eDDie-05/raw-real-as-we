@@ -1,6 +1,9 @@
 import os
+import mimetypes
 from pathlib import Path
 from urllib.parse import unquote, urlparse
+
+mimetypes.add_type("application/manifest+json", ".webmanifest", strict=True)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
