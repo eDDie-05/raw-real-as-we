@@ -15,7 +15,7 @@
   <meta property="og:image" content="{% static 'store/images/campaign-scooter.webp' %}">
   <link rel="icon" href="{% static 'store/images/raw-logo-original.jpeg' %}" type="image/jpeg">
   <link rel="apple-touch-icon" href="{% static 'store/images/raw-app-icon-192.png' %}">
-  <link rel="manifest" href="{% static 'store/manifest.webmanifest' %}">
+  <link rel="manifest" href="{% url 'web_manifest' %}">
   <link rel="stylesheet" href="{% static 'store/css/raw.css' %}">
   <title>{% block title %}RAW — REAL AS WE{% endblock %}</title>
   {% block extra_head %}{% endblock %}
