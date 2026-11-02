@@ -1,7 +1,7 @@
 {% load static %}
 <div class="quick-view-layout">
   <div class="quick-view-image">
-    {% if product.primary_image %}<img src="{{ product.primary_image.image.url }}" alt="{{ product.primary_image.alt_text|default:product.name }}">
+    {% if product.primary_image %}<img src="{{ product.primary_image.display_url }}" alt="{{ product.primary_image.alt_text|default:product.name }}">
     {% else %}<img src="{% static 'store/images/campaign-scooter.webp' %}" alt="RAW campaign">{% endif %}
   </div>
   <div class="quick-view-copy">
