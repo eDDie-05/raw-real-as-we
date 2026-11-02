@@ -9,15 +9,15 @@
 <section class="product-detail section-shell">
   <div class="product-gallery">
     <div class="product-main-image">
-      {% if product.primary_image %}<img id="main-product-image" src="{{ product.primary_image.image.url }}" alt="{{ product.primary_image.alt_text|default:product.name }}">
+      {% if product.primary_image %}<img id="main-product-image" src="{{ product.primary_image.display_url }}" alt="{{ product.primary_image.alt_text|default:product.name }}">
       {% else %}<img id="main-product-image" src="{% static 'store/images/campaign-scooter.webp' %}" alt="RAW campaign">{% endif %}
       <button class="image-zoom" type="button" aria-label="Open image larger">+</button>
     </div>
     {% if product.images.count > 1 %}
     <div class="product-thumbnails" role="list" aria-label="Product images">
       {% for image in product.images.all %}
-      <button type="button" class="product-thumbnail {% if image.is_primary %}is-active{% endif %}" data-image-url="{{ image.image.url }}" data-image-alt="{{ image.alt_text|default:product.name }}" aria-label="Show image {{ forloop.counter }}">
-        <img src="{{ image.image.url }}" alt="" loading="lazy">
+      <button type="button" class="product-thumbnail {% if image.is_primary %}is-active{% endif %}" data-image-url="{{ image.display_url }}" data-image-alt="{{ image.alt_text|default:product.name }}" aria-label="Show image {{ forloop.counter }}">
+        <img src="{{ image.display_url }}" alt="" loading="lazy">
       </button>
       {% endfor %}
     </div>
