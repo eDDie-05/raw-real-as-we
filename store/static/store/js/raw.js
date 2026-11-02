@@ -24,6 +24,11 @@
     event.preventDefault();
     deferredInstallPrompt = event;
     if (installButton) installButton.textContent = 'INSTALL RAW APP ↗';
+    if (installBanner && !installedMode) {
+      let dismissed = false;
+      try { dismissed = window.localStorage.getItem('raw-install-dismissed') === '1'; } catch (_) { /* storage can be disabled */ }
+      if (!dismissed) installBanner.hidden = false;
+    }
   });
   window.addEventListener('appinstalled', () => hideInstallBanner(true));
   installButton?.addEventListener('click', async () => {
