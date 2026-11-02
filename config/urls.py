@@ -41,6 +41,7 @@ urlpatterns = [
     path("terms/", views.terms, name="terms"),
     path("privacy/", views.privacy, name="privacy"),
     path("offline/", views.offline, name="offline"),
+    path("manifest.webmanifest", views.web_manifest, name="web_manifest"),
     path("service-worker.js", views.service_worker, name="service_worker"),
     path("robots.txt", views.robots, name="robots"),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
