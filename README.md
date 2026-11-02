@@ -6,7 +6,7 @@ RAW is a Django streetwear shop and brand site built around the supplied campaig
 
 - Editorial home, shop, product pages, About, contact, terms and privacy pages.
 - Dedicated Men, Women and campaign archive pages with every supplied photograph, animated lookbook reveals, a collections mega menu and animated page transitions.
-- The supplied 15-second MP4 campaign film, muted and looping only while visible; reduced-motion users can play it manually with native controls.
+- The supplied 15-second MP4 campaign film with its original audio. Playback starts when visible where browsers allow audible autoplay; native controls let viewers start playback when autoplay is blocked. Reduced-motion users can play it manually.
 - Installable RAW PWA with the preserved official mark in square app icons, browser install option, iPhone/Android/desktop instructions, static-asset caching, and a private-data-safe offline fallback.
 - Responsive navigation, search, filters, product variation selection, quick view, cart and account pages.
 - Django admin product/category/inventory/order control and staff dashboard.
